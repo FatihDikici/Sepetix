@@ -1,4 +1,7 @@
+using Catalog.Domain.Repositories;
 using Catalog.Infrastructure.Configuration;
+using Catalog.Infrastructure.Data;
+using Catalog.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -24,6 +27,9 @@ public static class DependencyInjection
             var client = sp.GetRequiredService<MongoClient>();
             return client.GetDatabase(settings.DatabaseName);
         });
+
+        services.AddSingleton<CatalogContext>();
+        services.AddScoped<IProductRepository, ProductRepository>();
 
         return services;
     }
